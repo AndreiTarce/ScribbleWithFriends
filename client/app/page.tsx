@@ -1,8 +1,4 @@
 import RoomCard from "@/components/RoomCard";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Pen } from "lucide-react";
-import Link from "next/link";
 
 export default function Home() {
     return (

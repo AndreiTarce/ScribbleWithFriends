@@ -13,4 +13,4 @@ io.on("connection", (socket: Socket) => {
     console.log("connection");
 });
 
-httpServer.listen(3000);
+httpServer.listen(process.env.PORT || 3001);
