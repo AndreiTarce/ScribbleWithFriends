@@ -1,10 +1,32 @@
+"use client";
+
+import { Socket } from "dgram";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 
+import { socket } from "@/lib/socket";
+import { useEffect } from "react";
+
 export default function RoomCard() {
+    const uuid = crypto.randomUUID();
+
+    const connect = () => {
+        socket.emit("test", new Date());
+    };
+
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log(socket.id);
+        });
+
+        socket.on("message", (socket: Socket) => {
+            console.log(socket);
+        });
+    }, []);
+
     return (
         <Card>
             <CardHeader>
@@ -21,7 +43,14 @@ export default function RoomCard() {
                 <Label htmlFor="nickname">Nickname</Label>
                 <Input id="nickname" className="flex-1 min-w-0 mb-2" placeholder="Enter your nickname" type="text" />
                 <Label htmlFor="room_code">Room Code</Label>
-                <Input id="room_code" className="flex-1 min-w-0 mb-2" placeholder="Enter your nickname" type="text" />
+                <Input
+                    disabled
+                    id="room_code"
+                    className="flex-1 min-w-0 mb-2"
+                    placeholder="Enter your nickname"
+                    type="text"
+                    defaultValue={uuid}
+                />
             </CardContent>
             <CardFooter className="flex flex-col gap-2 relative w-full justify-center items-center">
                 <Button className="w-full">Host room</Button>
@@ -30,7 +59,7 @@ export default function RoomCard() {
                     <span className="text-muted-foreground">or</span>
                     <Separator className="grow" />
                 </div>
-                <Button variant={"secondary"} className="w-full">
+                <Button variant={"secondary"} className="w-full" onClick={connect}>
                     Join an existing room
                 </Button>
             </CardFooter>
