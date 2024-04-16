@@ -1,6 +1,7 @@
 import { Pen } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
+import { ModeToggle } from "./theme/ModeToggle";
 
 export default function Navbar() {
     return (
@@ -12,6 +13,7 @@ export default function Navbar() {
                         <span className="text-xl font-bold tracking-tighter">Scribble with Friends</span>
                     </Link>
                 </div>
+                <ModeToggle />
             </div>
             <Separator />
         </header>
