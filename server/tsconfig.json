@@ -1,0 +1,13 @@
+{
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    },
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "CommonJS",
+        "outDir": "./dist",
+        "esModuleInterop": true
+    }
+}
