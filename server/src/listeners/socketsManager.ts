@@ -2,14 +2,31 @@ import { Socket } from "socket.io";
 import { RoomController } from "../controllers/roomController";
 import { RoomInteractor } from "../interactors/roomInteractor";
 import { RoomRepository } from "../repositories/roomRepository";
+import { IRoomController } from "../interfaces/IRoomController";
+import { IJoinOrCreateRoomData } from "../interfaces/IRoom";
 
-const onConnection = (socket: Socket) => {
-    const roomRepository = new RoomRepository();
-    const roomInteractor = new RoomInteractor(roomRepository);
-    const roomController = new RoomController(roomInteractor, socket);
+const socketsManager = (socket: Socket, controller: IRoomController) => {
+    socket.on("room:create", async (data: IJoinOrCreateRoomData) => {
+        try {
+            const id = await controller.onCreateRoom(data);
+            // socket.join(roomId);
+            // socket.emit("room:joined", roomId);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                socket.emit("error", error);
+            }
+        }
+    });
 
-    socket.on("room:create", roomController.onCreateRoom.bind(roomController));
-    socket.on("room:join", roomController.onJoinRoom.bind(roomController));
+    socket.on("room:join", async (data: IJoinOrCreateRoomData) => {
+        try {
+            const id = await controller.onJoinRoom(data);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.log(error.message);
+            }
+        }
+    });
 };
 
-export { onConnection };
+export { socketsManager };
