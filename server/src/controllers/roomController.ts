@@ -11,11 +11,24 @@ export class RoomController implements IRoomController {
         this.interactor = interactor;
     }
 
-    async onCreateRoom(data: IJoinOrCreateRoomData) {
-        const validatedData = validateJoinOrCreateRoomData(data);
-        const { roomId, username } = validatedData;
-        const response = await this.interactor.createRoom(roomId);
-        return response;
+    // async onCreateRoom(data: IJoinOrCreateRoomData) {
+    //     const validatedData = validateJoinOrCreateRoomData(data);
+    //     const { roomId, username } = validatedData;
+    //     const response = await this.interactor.createRoom(roomId);
+    //     return response;
+    // }
+
+    async onCreateRoom(data: any, socket: Socket): Promise<string> {
+        try {
+            console.log("data", data);
+            const validatedData = validateJoinOrCreateRoomData(data as IJoinOrCreateRoomData);
+            console.log(validatedData);
+            socket.emit(validatedData.roomId);
+            return validatedData.roomId;
+        } catch (error) {
+            // throw new Error("server error");
+            socket.emit("error", "server error");
+        }
     }
 
     onJoinRoom(data: IJoinOrCreateRoomData): Promise<string> {

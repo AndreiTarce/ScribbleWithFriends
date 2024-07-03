@@ -34,6 +34,8 @@ export default function RoomCard() {
         socket.on("client:joined", (socket: Socket) => {
             console.log(socket);
         });
+
+        socket.on("error", (error: Error) => console.log(error.message));
     }, []);
 
     const form = useForm<z.infer<typeof formSchema>>({

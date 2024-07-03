@@ -6,7 +6,7 @@ const joinOrCreateRoomSchema = z.object({
         .string()
         .min(4, "Username must contain at least 4 characters")
         .max(20, "Username must not contain more than 20 characters"),
-    roomId: z.string().length(36, "Room ID must contain exactly 21 characters"),
+    roomId: z.string().length(36, "Room ID must contain exactly 36 characters"),
 });
 
 export const validateJoinOrCreateRoomData = (data: IJoinOrCreateRoomData) => {

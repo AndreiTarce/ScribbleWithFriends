@@ -20,8 +20,7 @@ describe("socket room operations", () => {
     });
 
     it("room:create with invalid data", async () => {
-        const randomId = randomUUID();
-        const roomData = { username: "name too long aaaaaaaaaaaaaaaaaa", roomId: randomId };
+        const roomData = { username: "test name", roomId: "too short room id" };
 
         expect(async () => {
             await roomController.onCreateRoom(roomData);
